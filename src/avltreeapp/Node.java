@@ -168,8 +168,8 @@ public class Node<T extends Comparable<T>>{
      * @param node node
      * @return size of node
      */
-    public int getSize(Node<T> node){
-        return size(node);
+    public int getSize(){
+        return size(this);
     }
     
     /**
