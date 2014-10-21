@@ -56,8 +56,15 @@ public class Node<T extends Comparable<T>>{
     }
     
     /**
+     * gets parent node
+     * @return pointer to parent 
+     */
+    public Node<T> parent(){
+        return parent;
+    }
+    /**
      * gets left node
-     * @return pointer to left node
+     * @return pointer to left
      */
     public Node<T> left(){
         return left;
@@ -65,7 +72,7 @@ public class Node<T extends Comparable<T>>{
     
     /**
      * gets right node
-     * @return pointer to right node
+     * @return pointer to right 
      */
     public Node<T> right(){
         return right;
