@@ -24,6 +24,7 @@ public class Node<T extends Comparable<T>>{
     private int bf;
     private int height;
     private int size;
+    //private T data;
     
     /**
      * Constructs Node
@@ -68,6 +69,14 @@ public class Node<T extends Comparable<T>>{
      */
     public Node<T> right(){
         return right;
+    }
+    
+    /**
+     * gets key of node
+     * @return key
+     */
+    public int key(){
+        return key;
     }
     
     /**
