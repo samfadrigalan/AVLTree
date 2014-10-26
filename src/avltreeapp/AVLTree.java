@@ -150,14 +150,19 @@ public class AVLTree<T extends Comparable<T>> {
     }
     
     /**
-     * Finds the rank/position of element z in the liner order determined
+     * Finds the rank/position of key k in the liner order determined
      * by the inorder traversal tree
-     * @param x element being searched
-     * @return rank/position of element z
+     * @param x a node
+     * @param k an integer
+     * @return rank/position of key x
      */
-    public int rank(Node<T> x){
+    public int rank(Node<T> x, int k){
         if(x==null)
-            throw new IllegalStateException();
-        return x.left().getSize() + 1;
+            return 0;
+        if(k < x.key())
+            return rank(x.left(), k);
+        if(k == x.key())
+            return x.left().getSize() + 1;
+        return x.left().getSize() + 1 + rank(x.right(), k);
     }
 }
