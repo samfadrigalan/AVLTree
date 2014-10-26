@@ -90,24 +90,24 @@ public class AVLTree<T extends Comparable<T>> {
     }
     
     /**
-     * determines if there is a node with key k
-     * @param node root node
-     * @param k key to be search
-     * @return true if there is node with key k and otherwise if false
+     * Determines if there is a node with key k
+     * @param x a node
+     * @param k an integer
+     * @return true if there is a node with key k and false if otherwise
      */
-    public boolean search(Node<T> node, int k){
-        if(node==null)
+    public boolean search(Node<T> x, int k){
+        if(x==null)
             return false;
-        if(node.key() == k)
+        if(x.key() == k)
             return true;
-        if(node.key() > k)
-            return search(node.left(), k);
-        return search(node.right(), k);
+        if(x.key() > k)
+            return search(x.left(), k);
+        return search(x.right(), k);
     }
     
     /**
-     * finds the successor of a node
-     * @param x node
+     * Finds the successor of a node
+     * @param x a node
      * @return successor of node x
      */
     public Node<T> successor(Node<T> x){
@@ -122,36 +122,36 @@ public class AVLTree<T extends Comparable<T>> {
     }
     
     /**
-     * finds the min of a tree
-     * @param node parent node
-     * @return min of tree
+     * Finds the min of a tree
+     * @param x a node
+     * @return node containing the smallest key
      */
-    public Node<T> min(Node<T> node){
-        if(node.hasLeft())
-            return min(node);
+    public Node<T> min(Node<T> x){
+        if(x.hasLeft())
+            return min(x);
         else
-            return node;
+            return x;
     }
     
     /**
-     * finds the node containing the ith smallest key 
-     * @param node parent node
-     * @param i ith smallest key
-     * @return node containing the ith smallest key
+     * Finds the node containing the i-th smallest key
+     * @param x a node
+     * @param i an integer
+     * @return 
      */
-    public Node<T> select(Node<T> node, int i){
-        if(node==null)
+    public Node<T> select(Node<T> x, int i){
+        if(x==null)
             throw new IllegalStateException("tree underflow");
-        if(node.left().getSize() >= i)
-            return select(node.left(), i);
-        if(node.left().getSize() + 1 == i)
-            return node;
-        return select(node.right(), i-1-(node.left().getSize()));
+        if(x.left().getSize() >= i)
+            return select(x.left(), i);
+        if(x.left().getSize() + 1 == i)
+            return x;
+        return select(x.right(), i-1-(x.left().getSize()));
     }
     
     /**
      * Finds the rank/position of key k in the liner order determined
-     * by the inorder traversal tree
+     * by the in-order traversal tree
      * @param x a node
      * @param k an integer
      * @return rank/position of key x
