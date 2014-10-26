@@ -46,7 +46,7 @@ public class Node<T extends Comparable<T>>{
         left.parent = this;
         
         this.height = height(this);
-        this.size = size(this);
+        this.size = this.size();
         
         /**not done**/
     }
@@ -151,11 +151,11 @@ public class Node<T extends Comparable<T>>{
      * @param node node
      * @return size of node
      */
-    private int size(Node<T> node){
-        if(node==null)
+    private int size(){
+        if(this==null)
             return 0;
         else{
-            return 1 + size(node.left) + size(node.right);
+            return 1 + size(this.left) + size(this.right);
         }
     }
     
