@@ -17,7 +17,7 @@ public class Node<T extends Comparable<T>>{
     private Node<T> right;
     private Node<T> parent;
     private int key; 
-    private int bf;
+    protected int bf;
     private int height;
     private int size;
     //private T data;
@@ -182,14 +182,6 @@ public class Node<T extends Comparable<T>>{
      */
     public void setSize(int size){
         this.size = size;
-    }
-    
-    /**
-     * sets the balance factor of a node
-     * @param bf balance factor
-     */
-    public void setBf(int bf){
-        this.bf = bf;
     }
     
     /**
