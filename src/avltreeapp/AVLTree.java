@@ -71,12 +71,17 @@ public class AVLTree<T extends Comparable<T>> {
         x.setParent(y);
     }
     
-    /*****CREATE LEFT ROTATE******/
-    /*
-     * look at the slideshow
+    /**
+     * Performs a left rotation on node x
+     * Assumes x has right child
+     * @param x a node
      */
     public void l_rotate(Node<T> x){
         Node<T> y = x.right();
+        transplant(y, y.left());
+        transplant(x, y);
+        y.setLeft(x);
+        x.setParent(y);
     }
     
     /**
