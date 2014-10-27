@@ -132,6 +132,8 @@ public class AVLTree<T extends Comparable<T>> {
      * @return node containing the smallest key
      */
     public Node<T> min(Node<T> x){
+        if(x == null)
+            throw new IllegalStateException("Tree underflow");
         if(x.hasLeft())
             return min(x);
         else
