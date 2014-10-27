@@ -155,7 +155,7 @@ public class Node<T extends Comparable<T>>{
         if(this==null)
             return 0;
         else{
-            return 1 + size(this.left) + size(this.right);
+            return 1 + this.left.size() + this.right.size();
         }
     }
     
@@ -165,7 +165,7 @@ public class Node<T extends Comparable<T>>{
      * @return size of node
      */
     public int getSize(){
-        return size(this);
+        return this.size();
     }
     
     /**
