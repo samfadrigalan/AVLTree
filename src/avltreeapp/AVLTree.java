@@ -27,7 +27,11 @@ public class AVLTree<T extends Comparable<T>> {
         return root;
     }
     
-    /***NEEDS WORKING***/
+    /**
+     * Inserts an element x to the tree
+     * @param x a node
+     * @param z a node
+     */
     public void insert(Node<T> x, Node<T> z){
         if(x.key() < z.key()){
             if(x.hasRight())
