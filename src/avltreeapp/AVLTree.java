@@ -41,7 +41,19 @@ public class AVLTree<T extends Comparable<T>> {
                 z.bf = 0;
                 height_inc = true;
             }
-            if(height_inc){
+        }
+        
+        if(x.key() > z.key()){
+            if(x.hasLeft())
+                insert(x.left(),z);
+            else{
+                x.setLeft(z);
+                z.bf = 0;
+                height_inc = true;
+            }
+        }
+        
+        if(height_inc){
                 if(x.bf == 0)
                     x.bf = -1;
                 else if(x.bf == 1){
@@ -72,8 +84,6 @@ public class AVLTree<T extends Comparable<T>> {
                     }
                 }
             }
-        }
-       insert(x.left(), z); 
     }
     
     /**
