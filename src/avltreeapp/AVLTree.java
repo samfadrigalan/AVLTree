@@ -8,13 +8,15 @@ import java.util.Queue;
  * Course: CSC 3102
  */
 public class AVLTree<T extends Comparable<T>> {
-   Node<T> root;
+   private Node<T> root;
+   private boolean height_inc;
     
     /**
      * Constructs an AVLTree.
      */
     public AVLTree(){
         root = null;
+        height_inc = false;
     }
     
     /**
@@ -27,18 +29,47 @@ public class AVLTree<T extends Comparable<T>> {
     
     /***NEEDS WORKING***/
     public void insert(Node<T> x, Node<T> z){
-        if(x.key() > z.key()){
-            if(x.hasLeft())
-                insert(x.left(), z);
-            else
-                x.setLeft(root);
-        }
-        else if(x.key() < z.key()){
+        if(x.key() < z.key()){
             if(x.hasRight())
                 insert(x.right(), z);
-            else
+            else{
                 x.setRight(z);
+                z.bf = 0;
+                height_inc = true;
+            }
+            if(height_inc){
+                if(x.bf == 0)
+                    x.bf = -1;
+                else if(x.bf == 1){
+                    x.bf = 0;
+                    height_inc = false;
+                }
+                else{
+                    if(x.right().bf == -1){
+                        l_rotate(x);
+                        x.bf = x.parent().bf = 0;
+                        height_inc = false;
+                    }
+                    else if(x.right().bf == 1){
+                        int b = x.right().left().bf;
+                        lr_rotate(x);
+                        x.parent().bf = 0;
+                        if (b == 0)
+                            x.bf = x.parent().right().bf = 0;
+                        else if(b == 1){
+                            x.bf = 0;
+                            x.parent().right().bf = -1;
+                        }
+                        else if(b == -1){
+                            x.bf = 1;
+                            x.parent().right().bf = 0;
+                        }
+                        height_inc = false;
+                    }
+                }
+            }
         }
+       insert(x.left(), z); 
     }
     
     /**
