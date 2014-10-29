@@ -2,7 +2,7 @@ package avltreeapp;
 import java.util.Queue;
 /**
  * @file AVLTree.java
- * @author Samantha Fadrigalan
+ * @author Samantha Fadrigalan and Kayla Thurman
  * Description: Generic AVL Implementation; Supports insert, search, 
  * select successor, rank functions
  * Course: CSC 3102
@@ -15,16 +15,12 @@ public class AVLTree<T extends Comparable<T>> {
      * Constructs an AVLTree.
      */
     public AVLTree(){
-        root = null;
+        root = new Node<T>();
         height_inc = false;
     }
     
-    /**
-     * Returns the root of the AVL tree
-     * @return root of the the AVL tree
-     */
-    public Node<T> root(){
-        return root;
+    public void insert(Node<T> x){
+        prInsert(root, x);
     }
     
     /**
@@ -32,12 +28,16 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x a node
      * @param z a node
      */
-    public void insert(Node<T> x, Node<T> z){
+    private void prInsert(Node<T> x, Node<T> z){
+        if(root.isExternal()){
+            x = z;
+        }
         if(x.key() < z.key()){
             if(x.hasRight())
-                insert(x.right(), z);
+                prInsert(x.right(), z);
             else{
                 x.setRight(z);
+                z.setParent(x);
                 z.bf = 0;
                 height_inc = true;
             }
@@ -45,9 +45,10 @@ public class AVLTree<T extends Comparable<T>> {
         
         if(x.key() > z.key()){
             if(x.hasLeft())
-                insert(x.left(),z);
+                prInsert(x.left(),z);
             else{
                 x.setLeft(z);
+                z.setParent(x);
                 z.bf = 0;
                 height_inc = true;
             }
@@ -156,11 +157,19 @@ public class AVLTree<T extends Comparable<T>> {
     }
     
     /**
-     * Finds the successor of a node
-     * @param x a node
-     * @return successor of node x
+     * Finds the successor of a node given a key k
+     * @param x an integer 
+     * @param k a node
+     * @return 
      */
-    public Node<T> successor(Node<T> x){
+    public Node<T> successor(Node<T> x, int k){
+        System.out.println("test");
+        if(x.hasLeft())
+            if(x.key() > k)
+                successor(x.left(), k);
+        if(x.key() < k)
+            successor(x.right(), k);
+        
         if(x.hasRight())
             return min(x.right());
         Node<T> y = x.parent();
@@ -216,5 +225,13 @@ public class AVLTree<T extends Comparable<T>> {
         if(k == x.key())
             return x.left().getSize() + 1;
         return x.left().getSize() + 1 + rank(x.right(), k);
+    }
+    
+    /**
+     * Returns the root of the AVL tree
+     * @return root of the the AVL tree
+     */
+    public Node<T> root(){
+        return root;
     }
 }
