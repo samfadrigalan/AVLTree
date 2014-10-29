@@ -2,7 +2,7 @@ package avltreeapp;
 
 /**
  * @file Node.java
- * @author Samantha Fadrigalan
+ * @author Samantha Fadrigalan and Kayla Thurman
  * Description: Node implementation for generic AVL Tree that supports
  * insert, search, select successor, rank functions
  */
@@ -22,20 +22,37 @@ public class Node<T extends Comparable<T>>{
     private int size;
     //private T data;
     
+    public Node(){
+        left = null;
+        right = null;
+        parent = null;
+    }
+    
+    public Node(int key){
+        left = null;
+        right = null;
+        parent = null;
+        this.key = key;
+    }
+    
+    
+    
     /**
      * Constructs Node
      * @param key key of node
      */
+    /*
     public Node(int key) {
         this(key, null, null);
-    }
+    }*/
     
     /**
-     * Constructs Node with left and right leaves
+     * * Constructs Node with left and right leaves
      * @param key key of node
      * @param left left node 
      * @param right right node
      */
+    /*
     public Node(int key, Node<T> left, Node<T> right){
         //super();
         
@@ -48,9 +65,8 @@ public class Node<T extends Comparable<T>>{
         this.height = height(this);
         this.size = this.size();
         
-        /**not done**/
-    }
-    
+    }*/
+
     /**
      * gets parent node
      * @return pointer to parent 
@@ -207,13 +223,13 @@ public class Node<T extends Comparable<T>>{
         return false;
     }
     
+    
     /**
-     * determines if node is a leaf
-     * @param node node
+     * Determines if node is a leaf
      * @return true if node is a leaf and false if otherwise
      */
-    public boolean isExternal(Node<T> node){
-        if(node.left==null && node.right==null)
+    public boolean isExternal(){
+        if(this.left==null && this.right==null)
             return true;
         return false;
     }
