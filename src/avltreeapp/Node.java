@@ -26,9 +26,11 @@ public class Node<T extends Comparable<T>>{
         left = null;
         right = null;
         parent = null;
+        height = 0;
     }
     
     public Node(int key){
+        height = 0;
         left = null;
         right = null;
         parent = null;
@@ -137,20 +139,19 @@ public class Node<T extends Comparable<T>>{
     public void setRight(Node<T> node){
         this.right = node;
     }
-    
+     
     /**
-     * determines the height of a node
-     * @param node node
-     * @return height of the node
+     * Determines the height of a node
+     * @return height of a node
      */
-    private int height(Node<T> node){
-        if(node==null)
+    private int height(){
+        if(this==null)
             return 0;
-        else if(node.height>0)
-            return node.height;
+        else if(this.height>0)
+            return this.height;
         else{
-            node.height = 1 + max(height(node.left), height(node.right));
-            return node.height;
+            this.height = 1 + max(this.left.height(), this.right.height());
+            return this.height;
         }
     }
     
@@ -158,8 +159,8 @@ public class Node<T extends Comparable<T>>{
      * gets height of node
      * @return height of node
      */
-    public int height(){
-        return height;
+    public int getHeight(){
+        return this.height();
     }
     
     /**
