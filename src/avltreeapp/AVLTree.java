@@ -188,9 +188,21 @@ public class AVLTree<T extends Comparable<T>> {
      * Assumes x has left child and left child of x has a right child
      * @param x a node
      */
-    public void lr_rotate(Node<T> x){
-        l_rotate(x.left());
-        r_rotate(x);
+    public Node<T> lr_rotate(Node<T> x){
+        x = l_rotate(x.left());
+        x = r_rotate(x);
+        return x;
+    }
+    
+    /**
+     * Performs a right rotate on the right child of x then a left rotate on x
+     * Assumes x has left child and left child of x has a right child
+     * @param x a node
+     */
+    public Node<T> rl_rotate(Node<T> x){
+        x = r_rotate(x.right());
+        x = l_rotate(x);
+        return x;
     }
     
     /**
