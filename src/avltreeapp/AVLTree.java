@@ -202,7 +202,7 @@ public class AVLTree<T extends Comparable<T>> {
      */
     public Node<T> rl_rotate(Node<T> x){
         Node<T> y = r_rotate(x.right());
-        x.setRight(x.right());
+        x.setRight(y);
         x = l_rotate(x);
         return x;
     }
