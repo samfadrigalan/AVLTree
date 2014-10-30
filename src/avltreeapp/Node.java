@@ -80,6 +80,7 @@ public class Node<T extends Comparable<T>>{
         this.key = key;
         this.left = left;
         this.right = right;
+        this.bf = 0;
         
         if(left == null && right == null)
             this.height = 1;
