@@ -22,61 +22,12 @@ public class Node<T extends Comparable<T>>{
     private int size;
     //private T data;
     
-    /*
-    public Node(){
-        left = null;
-        right = null;
-        parent = null;
-        height = 0;
-    }
-    
-    public Node(int key){
-        height = 0;
-        left = null;
-        right = null;
-        parent = null;
-        this.key = key;
-    }*/
-    
-    
-    
-    /**
-     * Constructs Node
-     * @param key key of node
-     */
-    /*
-    public Node(int key) {
-        this(key, null, null);
-    }*/
-    
-    /**
-     * * Constructs Node with left and right leaves
-     * @param key key of node
-     * @param left left node 
-     * @param right right node
-     */
-    /*
-    public Node(int key, Node<T> left, Node<T> right){
-        //super();
-        
-        this.key = key;
-        this.left = left;
-        this.right = right;
-        right.parent = this;
-        left.parent = this;
-        
-        this.height = height(this);
-        this.size = this.size();
-        
-    }*/
-    
     public Node(int key){
         this(key, null, null);
     }
     
     public Node(int key, Node<T> left, Node<T> right){
         //super();
-        
         this.key = key;
         this.left = left;
         this.right = right;
@@ -90,10 +41,6 @@ public class Node<T extends Comparable<T>>{
             this.height = left.height + 1;
         else
             this.height = Math.max(left.height, right.height) + 1;
-        
-        
-        /*this.size = this.size(); *///THIS IS A TREE METHOD
-        
     }
 
     /**
