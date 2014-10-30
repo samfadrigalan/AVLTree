@@ -15,12 +15,24 @@ public class AVLTree<T extends Comparable<T>> {
      * Constructs an AVLTree.
      */
     public AVLTree(){
-        root = new Node<T>();
+        root = null;
         height_inc = false;
+    }
+    
+    public int height(Node<T> x){
+        if (x == null)
+            return 0;
+        return x.getHeight();
     }
     
     public void insert(Node<T> x){
         root = insert(root, x);
+    }
+    
+    private int balanceFactor(Node<T> x){
+        int leftHeight = height(x.left());
+        int rightHeight = height(x.left());
+        return leftHeight - rightHeight;
     }
     
     /**
@@ -31,34 +43,34 @@ public class AVLTree<T extends Comparable<T>> {
     private Node<T> insert(Node<T> x, Node<T> z){
         if(x == null){
             x = z;
-            //x.bf = 0;
-            x.bf = x.bf();
+            x.bf = 0;
+            return x;
         }
         if(x.key() < z.key()){
-            if(x.hasRight())
-                x = insert(x.right(), z);
+            if(x.hasRight()){
+                x.setRight(insert(x.right(), z));
+            }
             else{
                 x.setRight(z);
                 z.setParent(x);
-                //z.bf = 0;
-                x.bf = x.bf();
-                z.bf = z.bf();
+                z.bf = 0;
+                height_inc = true;
+            }
+        }
+        else if(x.key() > z.key()){
+            if(x.hasLeft()){
+                x.setLeft(insert(x.left(), z));
+            }
+            else{
+                x.setLeft(z);
+                z.setParent(x);
+                z.bf = 0;
                 height_inc = true;
             }
         }
         
-        if(x.key() > z.key()){
-            if(x.hasLeft())
-                x = insert(x.left(),z);
-            else{
-                x.setLeft(z);
-                z.setParent(x);
-                //z.bf = 0;
-                x.bf = x.bf();
-                z.bf = z.bf();
-                height_inc = true;
-            }
-        }
+        x.setHeight((height(x)+1));
+        x.bf = balanceFactor(x);
         
         if(height_inc){
                 if(x.bf == 0)
@@ -94,9 +106,7 @@ public class AVLTree<T extends Comparable<T>> {
         return x;
     }
     
-    private void balanceFactor(){
-        
-    }
+    
     
     /**
      * Links x's parent to y and y's parent is changed accordingly
