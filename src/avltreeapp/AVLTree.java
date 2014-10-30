@@ -60,36 +60,36 @@ public class AVLTree<T extends Comparable<T>> {
             }
             
             if(height_inc){
-            if(x.bf == 0)
-                x.bf = -1;
-            else if(x.bf == 1){
-                x.bf = 0;
-                height_inc = false;
-            }
-            else{
-                if(x.right().bf == -1){
-                    x = l_rotate(x);
-                    x.bf = x.parent().bf = 0;
+                if(x.bf == 0)
+                    x.bf = -1;
+                else if(x.bf == 1){
+                    x.bf = 0;
                     height_inc = false;
                 }
-                else if(x.right().bf == 1){
-                    int b = x.right().left().bf;
-                    lr_rotate(x);
-                    x.parent().bf = 0;
-                    if (b == 0)
-                        x.bf = x.parent().right().bf = 0;
-                    else if(b == 1){
-                        x.bf = 0;
-                        x.parent().right().bf = -1;
+                else{
+                    if(x.right().bf == -1){
+                        x = l_rotate(x);
+                        x.bf = x.parent().bf = 0;
+                        height_inc = false;
                     }
-                    else if(b == -1){
-                        x.bf = 1;
-                        x.parent().right().bf = 0;
+                    else if(x.right().bf == 1){
+                        int b = x.right().left().bf;
+                        lr_rotate(x);
+                        x.parent().bf = 0;
+                        if (b == 0)
+                            x.bf = x.parent().right().bf = 0;
+                        else if(b == 1){
+                            x.bf = 0;
+                            x.parent().right().bf = -1;
+                        }
+                        else if(b == -1){
+                            x.bf = 1;
+                            x.parent().right().bf = 0;
+                        }
+                        height_inc = false;
                     }
-                    height_inc = false;
                 }
             }
-        }
             
         }
         else if(x.key() > z.key()){
@@ -189,7 +189,8 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x a node
      */
     public Node<T> lr_rotate(Node<T> x){
-        x = l_rotate(x.left());
+        Node<T> y = l_rotate(x.left());
+        x.setLeft(y);
         x = r_rotate(x);
         return x;
     }
@@ -200,7 +201,8 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x a node
      */
     public Node<T> rl_rotate(Node<T> x){
-        x = r_rotate(x.right());
+        Node<T> y = r_rotate(x.right());
+        x.setRight(x.right());
         x = l_rotate(x);
         return x;
     }
