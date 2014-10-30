@@ -50,7 +50,6 @@ public class AVLTree<T extends Comparable<T>> {
             if(x.hasRight()){
                 x.setRight(insert(x.right(), z));
                 x.setHeight((height(x)+1));
-                //x.bf = balanceFactor(x);
             }
             else{
                 x.setRight(z);
@@ -58,7 +57,6 @@ public class AVLTree<T extends Comparable<T>> {
                 z.bf = 0;
                 height_inc = true;
                 x.setHeight((height(x)+1));
-                //x.bf = balanceFactor(x);
             }
             
             if(height_inc){
@@ -70,7 +68,7 @@ public class AVLTree<T extends Comparable<T>> {
             }
             else{
                 if(x.right().bf == -1){
-                    l_rotate(x);
+                    x = l_rotate(x);
                     x.bf = x.parent().bf = 0;
                     height_inc = false;
                 }
@@ -97,7 +95,7 @@ public class AVLTree<T extends Comparable<T>> {
         else if(x.key() > z.key()){
             if(x.hasLeft()){
                 x.setLeft(insert(x.left(), z));
-                x.setHeight((height(x)+1));
+                //x.setHeight((height(x)+1));
                 //x.bf = balanceFactor(x);
             }
             else{
@@ -105,76 +103,43 @@ public class AVLTree<T extends Comparable<T>> {
                 z.setParent(x);
                 z.bf = 0;
                 height_inc = true;
-                x.setHeight((height(x)+1));
+                //x.setHeight((height(x)+1));
                 //x.bf = balanceFactor(x);
             }
             
             if(height_inc){
-            if(x.bf == 0)
-                x.bf = 1;
-            else if(x.bf == -1){
-                x.bf = 0;
-                height_inc = false;
-            }
-            else{
-                if(x.left().bf == 1){
-                    r_rotate(x);
-                    x.bf = x.parent().bf = 0;
+                if(x.bf == 0)
+                    x.bf = 1;
+                else if(x.bf == -1){
+                    x.bf = 0;
                     height_inc = false;
                 }
-                else if(x.right().bf == 1){
-                    int b = x.right().left().bf;
-                    lr_rotate(x);
-                    x.parent().bf = 0;
-                    if (b == 0)
-                        x.bf = x.parent().right().bf = 0;
-                    else if(b == 1){
-                        x.bf = 0;
-                        x.parent().right().bf = -1;
+                else{
+                    if(x.left().bf == 1){
+                        x = r_rotate(x);
+                        x.bf = x.parent().bf = 0;
+                        height_inc = false;
                     }
-                    else if(b == -1){
-                        x.bf = 1;
-                        x.parent().right().bf = 0;
+                    else if(x.left().bf == -1){
+                        int b = x.right().left().bf;
+                        lr_rotate(x);
+                        x.parent().bf = 0;
+                        if (b == 0)
+                            x.bf = x.parent().right().bf = 0;
+                        else if(b == 1){
+                            x.bf = 0;
+                            x.parent().right().bf = -1;
+                        }
+                        else if(b == -1){
+                            x.bf = 1;
+                            x.parent().right().bf = 0;
+                        }
+                        height_inc = false;
                     }
-                    height_inc = false;
-                }
-            }
-        
-        }
-        
-        
-        
-        if(height_inc){
-            if(x.bf == 0)
-                x.bf = -1;
-            else if(x.bf == 1){
-                x.bf = 0;
-                height_inc = false;
-            }
-            else{
-                if(x.right().bf == -1){
-                    l_rotate(x);
-                    x.bf = x.parent().bf = 0;
-                    height_inc = false;
-                }
-                else if(x.right().bf == 1){
-                    int b = x.right().left().bf;
-                    lr_rotate(x);
-                    x.parent().bf = 0;
-                    if (b == 0)
-                        x.bf = x.parent().right().bf = 0;
-                    else if(b == 1){
-                        x.bf = 0;
-                        x.parent().right().bf = -1;
-                    }
-                    else if(b == -1){
-                        x.bf = 1;
-                        x.parent().right().bf = 0;
-                    }
-                    height_inc = false;
                 }
             }
         }
+        
         return x;
     }
     
@@ -197,31 +162,26 @@ public class AVLTree<T extends Comparable<T>> {
             y.setParent(x.parent());
     }
     
-    /**
-     * Performs a right rotation on node x
-     * Assumes x has a left child
-     * @param x a node
-     */
-    public void r_rotate(Node<T> x){
-        Node<T> y = x.left();
-        transplant(y, y.right());
-        transplant(x, y);
-        y.setRight(x);
-        x.setParent(y);
+    public Node<T> l_rotate(Node<T> x){
+        Node<T> y = x.right();
+        Node<T> b = y.left();
+        Node<T> c = y.right();
+        Node<T> a = x.left();
+        x = new Node<T>(x.key(), a, b);
+        y = new Node<T>(y.key(), x, c);
+        return y;
     }
     
-    /**
-     * Performs a left rotation on node x
-     * Assumes x has right child
-     * @param x a node
-     */
-    public void l_rotate(Node<T> x){
-        Node<T> y = x.right();
-        transplant(y, y.left());
-        transplant(x, y);
-        y.setLeft(x);
-        x.setParent(y);
+    public Node<T> r_rotate(Node<T> x){
+        Node<T> y = x.left();
+        Node<T> a = y.left();
+        Node<T> b = y.right();
+        Node<T> c = x.right();
+        x = new Node<T>(x.key(), b, c);
+        y = new Node<T>(y.key(), a, x);
+        return y;
     }
+    
     
     /**
      * Performs a left rotate on the left child of x then a right rotate on x
