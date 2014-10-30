@@ -155,6 +155,14 @@ public class Node<T extends Comparable<T>>{
         }
     }
     
+    
+    public int bf(){
+        int rightH = this.right.height();
+        int leftH = this.left.height();
+        return leftH - rightH;
+        //return this.left.height() - this.right.height();
+    }
+    
     /**
      * gets height of node
      * @return height of node

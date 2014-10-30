@@ -20,7 +20,7 @@ public class AVLTree<T extends Comparable<T>> {
     }
     
     public void insert(Node<T> x){
-        prInsert(root, x);
+        root = insert(root, x);
     }
     
     /**
@@ -28,28 +28,34 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x a node
      * @param z a node
      */
-    private void prInsert(Node<T> x, Node<T> z){
-        if(root.isExternal()){
+    private Node<T> insert(Node<T> x, Node<T> z){
+        if(x == null){
             x = z;
+            //x.bf = 0;
+            x.bf = x.bf();
         }
         if(x.key() < z.key()){
             if(x.hasRight())
-                prInsert(x.right(), z);
+                x = insert(x.right(), z);
             else{
                 x.setRight(z);
                 z.setParent(x);
-                z.bf = 0;
+                //z.bf = 0;
+                x.bf = x.bf();
+                z.bf = z.bf();
                 height_inc = true;
             }
         }
         
         if(x.key() > z.key()){
             if(x.hasLeft())
-                prInsert(x.left(),z);
+                x = insert(x.left(),z);
             else{
                 x.setLeft(z);
                 z.setParent(x);
-                z.bf = 0;
+                //z.bf = 0;
+                x.bf = x.bf();
+                z.bf = z.bf();
                 height_inc = true;
             }
         }
@@ -85,6 +91,11 @@ public class AVLTree<T extends Comparable<T>> {
                     }
                 }
             }
+        return x;
+    }
+    
+    private void balanceFactor(){
+        
     }
     
     /**
