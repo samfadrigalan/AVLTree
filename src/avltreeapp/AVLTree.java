@@ -1,5 +1,4 @@
 package avltreeapp;
-import java.util.Queue;
 /**
  * @file AVLTree.java
  * @author Samantha Fadrigalan and Kayla Thurman
@@ -19,20 +18,31 @@ public class AVLTree<T extends Comparable<T>> {
         height_inc = false;
     }
     
+    /**
+     * Returns the root of the AVL tree
+     * @return root of the the AVL tree
+     */
+    public Node<T> root(){
+        return root;
+    }
+    
+    /**
+     * Returns the height of a node
+     * @param x a node
+     * @return height of a node
+     */
     public int height(Node<T> x){
         if (x == null)
             return 0;
         return x.getHeight();
     }
     
+    /**
+     * Inserts a node to a tree
+     * @param x a node
+     */
     public void insert(Node<T> x){
         root = insert(root, x);
-    }
-    
-    private int balanceFactor(Node<T> x){
-        int leftHeight = height(x.left());
-        int rightHeight = height(x.left());
-        return leftHeight - rightHeight;
     }
     
     /**
@@ -49,14 +59,12 @@ public class AVLTree<T extends Comparable<T>> {
         if(x.key() < z.key()){
             if(x.hasRight()){
                 x.setRight(insert(x.right(), z));
-                //x.setHeight((height(x)+1));
             }
             else{
                 x.setRight(z);
                 z.setParent(x);
                 z.bf = 0;
                 height_inc = true;
-                //x.setHeight((height(x)+1));
             }
             
             if(height_inc){
@@ -101,16 +109,12 @@ public class AVLTree<T extends Comparable<T>> {
         else if(x.key() > z.key()){
             if(x.hasLeft()){
                 x.setLeft(insert(x.left(), z));
-                //x.setHeight((height(x)+1));
-                //x.bf = balanceFactor(x);
             }
             else{
                 x.setLeft(z);
                 z.setParent(x);
                 z.bf = 0;
                 height_inc = true;
-                //x.setHeight((height(x)+1));
-                //x.bf = balanceFactor(x);
             }
             
             if(height_inc){
@@ -153,11 +157,8 @@ public class AVLTree<T extends Comparable<T>> {
                 }
             }
         }
-        
         return x;
     }
-    
-    
     
     /**
      * Links x's parent to y and y's parent is changed accordingly
@@ -176,6 +177,11 @@ public class AVLTree<T extends Comparable<T>> {
             y.setParent(x.parent());
     }
     
+    /**
+     * Performs a left rotation on a node
+     * @param x a node
+     * @return new node
+     */
     public Node<T> l_rotate(Node<T> x){
         Node<T> y = x.right();
         Node<T> b = y.left();
@@ -186,6 +192,11 @@ public class AVLTree<T extends Comparable<T>> {
         return y;
     }
     
+    /**
+     * Performs a right rotation on a node
+     * @param x a node
+     * @return new node
+     */
     public Node<T> r_rotate(Node<T> x){
         Node<T> y = x.left();
         Node<T> a = y.left();
@@ -244,16 +255,14 @@ public class AVLTree<T extends Comparable<T>> {
      * @return 
      */
     public Node<T> successor(Node<T> x, int k){
-        System.out.println("test");
         if(x.key() > k)
             return successor(x.left(), k);
         if(x.key() < k)
             return successor(x.right(), k);
-        //put if !=key
-        if(x.hasRight()){ 
-            System.out.println("test hasRight() in successor");
+        if(x.key() != k)
+            throw new IllegalStateException("Key is not in tree");
+        if(x.hasRight())
             return min(x.right());
-        }
         Node<T> y = x.parent();
         while(y!=null &&  x == y.right()){
              x = y;
@@ -285,11 +294,24 @@ public class AVLTree<T extends Comparable<T>> {
     public Node<T> select(Node<T> x, int i){
         if(x==null)
             throw new IllegalStateException("tree underflow");
-        if(x.left().getSize() >= i)
+        if(size(x.left()) >= i)
             return select(x.left(), i);
-        if(x.left().getSize() + 1 == i)
+        if(size(x.left()) + 1 == i)
             return x;
-        return select(x.right(), i-1-(x.left().getSize()));
+        return select(x.right(), i-1-(size(x.left())));
+    }
+    
+    /**
+     * Determines the size of a node
+     * @param x a node
+     * @return size of a node
+     */
+    private int size(Node<T> x){
+        if(x==null)
+            return 0;
+        else{
+            return 1 + size(x.left()) + size(x.right());
+        }
     }
     
     /**
@@ -305,15 +327,7 @@ public class AVLTree<T extends Comparable<T>> {
         if(k < x.key())
             return rank(x.left(), k);
         if(k == x.key())
-            return x.left().getSize() + 1;
-        return x.left().getSize() + 1 + rank(x.right(), k);
-    }
-    
-    /**
-     * Returns the root of the AVL tree
-     * @return root of the the AVL tree
-     */
-    public Node<T> root(){
-        return root;
+            return size(x.left()) + 1;
+        return size(x.left()) + 1 + rank(x.right(), k);
     }
 }

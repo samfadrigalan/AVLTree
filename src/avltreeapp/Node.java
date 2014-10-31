@@ -1,5 +1,4 @@
 package avltreeapp;
-
 /**
  * @file Node.java
  * @author Samantha Fadrigalan and Kayla Thurman
@@ -7,11 +6,6 @@ package avltreeapp;
  * insert, search, select successor, rank functions
  */
 
-/**
- * 
- * Node left, right, parent
- * key, bf, height, size
- */
 public class Node<T extends Comparable<T>>{
     private int height;
     private Node<T> left;
@@ -21,10 +15,20 @@ public class Node<T extends Comparable<T>>{
     protected int bf;
     //private T data;
     
+    /**
+     * Constructs a node
+     * @param key an integer
+     */
     public Node(int key){
         this(key, null, null);
     }
     
+    /**
+     * Constructs a node
+     * @param key an integer
+     * @param left a node
+     * @param right a node
+     */
     public Node(int key, Node<T> left, Node<T> right){
         //super();
         this.key = key;
@@ -120,34 +124,9 @@ public class Node<T extends Comparable<T>>{
     public void setRight(Node<T> node){
         this.right = node;
     }
-     
-    /**
-     * Determines the height of a node
-     * @return height of a node
-     */
-    private int height(){
-        if(this==null)
-            return 0;
-        else if(this.height>0)
-            return this.height;
-        else{
-            this.height = 1 + Math.max(this.left.height(), this.right.height());
-            return this.height;
-        }
-    }
-    
-    
-    public int bf(){
-        int rightH = this.right.height();
-        int leftH = this.left.height();
-        return leftH - rightH;
-        //return this.left.height() - this.right.height();
-    }
-    
-     
     
     /**
-     * gets height of node
+     * Gets height of node
      * @return height of node
      */
     public int getHeight(){
@@ -155,7 +134,7 @@ public class Node<T extends Comparable<T>>{
     }
     
     /**
-     * sets height of a node
+     * Sets height of a node
      * @param height height of node
      */
     public void setHeight(int height){
@@ -163,7 +142,7 @@ public class Node<T extends Comparable<T>>{
     }
     
     /**
-     * determines if node has children
+     * Determines if node has children
      * @param node node
      * @return true if node has children and false if otherwise
      */
@@ -172,7 +151,6 @@ public class Node<T extends Comparable<T>>{
             return true;
         return false;
     }
-    
     
     /**
      * Determines if node is a leaf

@@ -16,13 +16,11 @@ public class AVLTreeApp {
             while(fin.hasNext()){
                 String operation = fin.next();
                 boolean found = false;
-                Node<Integer> newElement;
-                Node<Integer> successor;
+                Node<Integer> temp, successor, selected;
                 int keyToSearch, rank;
                 if(operation.compareTo("IN") == 0){//Insert
-                    newElement = new Node<Integer>(fin.nextInt());
-                    System.out.println(newElement.key());
-                    tree.insert(newElement);
+                    temp = new Node<Integer>(fin.nextInt());
+                    tree.insert(temp);
                 }
                 else if(operation.compareTo("SR") == 0){//Search
                     keyToSearch = fin.nextInt();
@@ -30,13 +28,13 @@ public class AVLTreeApp {
                         found = true;
                 }
                 else if(operation.compareTo("SC") == 0){//Successor
-                    /**change**/
                     successor = tree.successor(tree.root(), fin.nextInt());
                     System.out.println(successor.key());
                 }
                 else if(operation.compareTo("SE") == 0){//Select
                     keyToSearch = fin.nextInt();
-                    System.out.println(tree.select(tree.root(), keyToSearch));
+                    selected = tree.select(tree.root(), keyToSearch);
+                    System.out.println(selected.key());
                 }
                 else{//Rank
                     keyToSearch = fin.nextInt();
