@@ -49,14 +49,14 @@ public class AVLTree<T extends Comparable<T>> {
         if(x.key() < z.key()){
             if(x.hasRight()){
                 x.setRight(insert(x.right(), z));
-                x.setHeight((height(x)+1));
+                //x.setHeight((height(x)+1));
             }
             else{
                 x.setRight(z);
                 z.setParent(x);
                 z.bf = 0;
                 height_inc = true;
-                x.setHeight((height(x)+1));
+                //x.setHeight((height(x)+1));
             }
             
             if(height_inc){
@@ -69,22 +69,28 @@ public class AVLTree<T extends Comparable<T>> {
                 else{
                     if(x.right().bf == -1){
                         x = l_rotate(x);
-                        x.bf = x.parent().bf = 0;
+                        if(x.hasParent())
+                            x.parent().bf = 0;
+                        x.bf = 0;
                         height_inc = false;
                     }
                     else if(x.right().bf == 1){
                         int b = x.right().left().bf;
-                        lr_rotate(x);
-                        x.parent().bf = 0;
+                        x = rl_rotate(x);
+                        if(x.hasParent())
+                            x.parent().bf = 0;
                         if (b == 0)
-                            x.bf = x.parent().right().bf = 0;
+                            if(x.hasParent() && x.parent().hasRight())
+                                x.bf = x.parent().right().bf = 0;
                         else if(b == 1){
                             x.bf = 0;
-                            x.parent().right().bf = -1;
+                            if(x.hasParent() && x.parent().hasRight())
+                                x.parent().right().bf = -1;
                         }
                         else if(b == -1){
                             x.bf = 1;
-                            x.parent().right().bf = 0;
+                            if(x.hasParent() && x.parent().hasRight())
+                                x.parent().right().bf = 0;
                         }
                         height_inc = false;
                     }
@@ -117,22 +123,30 @@ public class AVLTree<T extends Comparable<T>> {
                 else{
                     if(x.left().bf == 1){
                         x = r_rotate(x);
-                        x.bf = x.parent().bf = 0;
+                        if(x.hasParent())
+                            x.parent().bf = 0;
+                        x.bf = 0;
                         height_inc = false;
                     }
                     else if(x.left().bf == -1){
-                        int b = x.right().left().bf;
-                        lr_rotate(x);
-                        x.parent().bf = 0;
-                        if (b == 0)
-                            x.bf = x.parent().right().bf = 0;
-                        else if(b == 1){
+                        int b = x.left().right().bf;
+                        x = lr_rotate(x);
+                        if(x.hasParent())
+                            x.parent().bf = 0;
+                        if (b == 0){
                             x.bf = 0;
-                            x.parent().right().bf = -1;
+                            if(x.hasParent() && x.parent().hasRight())
+                                x.parent().right().bf = 0;
                         }
                         else if(b == -1){
-                            x.bf = 1;
-                            x.parent().right().bf = 0;
+                            x.bf = 0;
+                            if(x.hasParent() && x.parent().hasLeft())
+                                x.parent().left().bf = 1;
+                        }
+                        else if(b == 1){
+                            x.bf = -1;
+                            if(x.hasParent() && x.parent().hasLeft())
+                                x.parent().left().bf = 0;
                         }
                         height_inc = false;
                     }
@@ -231,18 +245,19 @@ public class AVLTree<T extends Comparable<T>> {
      */
     public Node<T> successor(Node<T> x, int k){
         System.out.println("test");
-        if(x.hasLeft())
-            if(x.key() > k)
-                successor(x.left(), k);
+        if(x.key() > k)
+            return successor(x.left(), k);
         if(x.key() < k)
-            successor(x.right(), k);
-        
-        if(x.hasRight())
+            return successor(x.right(), k);
+        //put if !=key
+        if(x.hasRight()){ 
+            System.out.println("test hasRight() in successor");
             return min(x.right());
+        }
         Node<T> y = x.parent();
-        while(y!=null && y.hasRight()){
-            x = y;
-            y = y.parent();
+        while(y!=null &&  x == y.right()){
+             x = y;
+             y = y.parent();
         }
         return y;
     }
@@ -256,7 +271,7 @@ public class AVLTree<T extends Comparable<T>> {
         if(x == null)
             throw new IllegalStateException("Tree underflow");
         if(x.hasLeft())
-            return min(x);
+            return min(x.left());
         else
             return x;
     }
